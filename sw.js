@@ -1,9 +1,11 @@
 const CACHE_NAME = 'camara-pwa-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/app.js',
-    '/manifest.json'
+    'https://aserejex22.github.io/pwa-camara/',
+    'https://aserejex22.github.io/pwa-camara/index.html',
+    'https://aserejex22.github.io/pwa-camara/app.js',
+    'https://aserejex22.github.io/pwa-camara/manifest.json',
+    'https://aserejex22.github.io/pwa-camara/img/192.png',
+    'https://aserejex22.github.io/pwa-camara/img/512.png'
 ];
 
 self.addEventListener('install', function(event) {
