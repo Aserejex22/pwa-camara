@@ -124,7 +124,7 @@ function addPhotoToGallery(imageDataURL) {
     
     const photoItem = document.createElement('div');
     photoItem.className = 'photo-item';
-    photoItem.innerHTML = '<img src="' + imageDataURL + '" alt="Foto ' + photoCounter + '"><div class="photo-actions"><button onclick="deleteSinglePhoto(this, ' + photoCounter + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
+    photoItem.innerHTML = '<img src="' + imageDataURL + '" alt="Foto ' + photoCounter + '"><div class="photo-actions"><button onclick="downloadPhoto(\'' + imageDataURL + '\', ' + photoCounter + ')" class="btn-primary" title="Descargar">Descargar</button><button onclick="deleteSinglePhoto(this, ' + photoCounter + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
     
     if (photosGrid.firstChild === galleryEmpty) {
         photosGrid.appendChild(photoItem);
@@ -147,6 +147,16 @@ function deleteSinglePhoto(button, photoNumber) {
         checkIfGalleryEmpty();
         console.log('Foto ' + photoNumber + ' eliminada');
     }
+}
+
+function downloadPhoto(imageDataURL, photoNumber) {
+    const link = document.createElement('a');
+    link.href = imageDataURL;
+    link.download = 'foto_' + new Date().getTime() + '_' + photoNumber + '.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    console.log('Foto ' + photoNumber + ' descargada');
 }
 
 function checkIfGalleryEmpty() {
@@ -255,7 +265,7 @@ function loadSavedPhotos() {
             
             const photoItem = document.createElement('div');
             photoItem.className = 'photo-item';
-            photoItem.innerHTML = '<img src="' + savedPhoto + '" alt="Foto ' + photoNumber + '"><div class="photo-actions"><button onclick="deleteSinglePhoto(this, ' + photoNumber + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
+            photoItem.innerHTML = '<img src="' + savedPhoto + '" alt="Foto ' + photoNumber + '"><div class="photo-actions"><button onclick="downloadPhoto(\'' + savedPhoto + '\', ' + photoNumber + ')" class="btn-primary" title="Descargar">Descargar</button><button onclick="deleteSinglePhoto(this, ' + photoNumber + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
             photosGrid.appendChild(photoItem);
         }
     });
