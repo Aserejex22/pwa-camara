@@ -22,8 +22,8 @@ async function openCamera() {
         const constraints = {
             video: {
                 facingMode: { ideal: currentFacingMode },
-                width: { ideal: 320 },
-                height: { ideal: 240 }
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
             }
         };
 
@@ -47,8 +47,12 @@ function takePhoto() {
         return;
     }
 
+    // Usar las dimensiones del video para el canvas
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const imageDataURL = canvas.toDataURL('image/png');
+    const imageDataURL = canvas.toDataURL('image/jpeg', 0.8);
     
     addPhotoToGallery(imageDataURL);
     console.log('Foto capturada y agregada a la galería');
@@ -75,8 +79,8 @@ async function switchCamera() {
             const constraints = {
                 video: {
                     facingMode: { ideal: currentFacingMode },
-                    width: { ideal: 320 },
-                    height: { ideal: 240 }
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
                 }
             };
 
@@ -120,7 +124,7 @@ function addPhotoToGallery(imageDataURL) {
     
     const photoItem = document.createElement('div');
     photoItem.className = 'photo-item';
-    photoItem.innerHTML = '<img src="' + imageDataURL + '" alt="Foto ' + photoCounter + '"><div class="photo-actions"><button onclick="downloadSinglePhoto(\'' + imageDataURL + '\', ' + photoCounter + ')" title="Descargar">Descargar</button><button onclick="deleteSinglePhoto(this, ' + photoCounter + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
+    photoItem.innerHTML = '<img src="' + imageDataURL + '" alt="Foto ' + photoCounter + '"><div class="photo-actions"><button onclick="deleteSinglePhoto(this, ' + photoCounter + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
     
     if (photosGrid.firstChild === galleryEmpty) {
         photosGrid.appendChild(photoItem);
@@ -131,16 +135,6 @@ function addPhotoToGallery(imageDataURL) {
     savePhotoToStorage(imageDataURL, photoCounter);
     updateGalleryCounter();
     photoItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-}
-
-function downloadSinglePhoto(imageDataURL, photoNumber) {
-    const link = document.createElement('a');
-    link.download = 'foto-camara-' + photoNumber + '-' + new Date().toISOString().slice(0,19).replace(/:/g, '-') + '.png';
-    link.href = imageDataURL;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    console.log('Foto ' + photoNumber + ' descargada');
 }
 
 function deleteSinglePhoto(button, photoNumber) {
@@ -261,7 +255,7 @@ function loadSavedPhotos() {
             
             const photoItem = document.createElement('div');
             photoItem.className = 'photo-item';
-            photoItem.innerHTML = '<img src="' + savedPhoto + '" alt="Foto ' + photoNumber + '"><div class="photo-actions"><button onclick="downloadSinglePhoto(\'' + savedPhoto + '\', ' + photoNumber + ')" title="Descargar">Descargar</button><button onclick="deleteSinglePhoto(this, ' + photoNumber + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
+            photoItem.innerHTML = '<img src="' + savedPhoto + '" alt="Foto ' + photoNumber + '"><div class="photo-actions"><button onclick="deleteSinglePhoto(this, ' + photoNumber + ')" class="btn-danger" title="Eliminar">Eliminar</button></div>';
             photosGrid.appendChild(photoItem);
         }
     });

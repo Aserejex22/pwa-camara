@@ -96,14 +96,12 @@
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             background: #000;
+            aspect-ratio: 16/9;
+            object-fit: cover;
         }
         
         canvas {
             display: none;
-            width: 320px;
-            height: 240px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .camera-controls {
@@ -234,8 +232,47 @@
             padding: 8px 16px;
             margin: 0;
             flex: 1;
-            max-width: 90px;
             border-radius: 6px;
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .photo-item {
+                width: 180px;
+            }
+            
+            .photo-item img {
+                height: 140px;
+            }
+            
+            .photos-grid {
+                padding: 15px 5px;
+                gap: 15px;
+            }
+            
+            video {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .photo-item {
+                width: 160px;
+            }
+            
+            .photo-item img {
+                height: 120px;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .photos-grid {
+                padding: 10px 5px;
+                gap: 12px;
+            }
         }
 
         .gallery-empty {
@@ -276,9 +313,8 @@
             </div>
         </div>
         
-        <canvas id="canvas" width="320" height="240"></canvas>
+        <canvas id="canvas"></canvas>
         
-        <!-- Photo Gallery -->
         <div class="gallery">
             <div class="gallery-header">
                 <h3 class="gallery-title">Galería de Fotos</h3>
