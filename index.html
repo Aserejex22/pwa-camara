@@ -92,12 +92,15 @@
         
         video {
             width: 100%;
-            max-width: 480px;
+            max-width: 640px;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             background: #000;
-            aspect-ratio: 16/9;
             object-fit: cover;
+            height: auto;
+            max-height: 75vh;
+            display: block;
+            margin: 0 auto;
         }
         
         canvas {
@@ -252,6 +255,19 @@
             
             video {
                 max-width: 100%;
+                width: 100%;
+                max-height: 70vh;
+                height: auto;
+            }
+            
+            #cameraContainer {
+                margin: 20px -10px;
+                padding: 15px 10px;
+                border-radius: 8px;
+            }
+            
+            .container {
+                padding: 20px 15px;
             }
         }
 
@@ -265,13 +281,67 @@
             }
             
             .container {
-                padding: 20px;
-                margin: 10px;
+                padding: 15px 10px;
+                margin: 5px;
             }
             
             .photos-grid {
                 padding: 10px 5px;
                 gap: 12px;
+            }
+            
+            video {
+                width: calc(100vw - 40px);
+                border-radius: 8px;
+                max-height: 75vh;
+                height: auto;
+            }
+            
+            #cameraContainer {
+                margin: 15px -5px;
+                padding: 10px 5px;
+                background: transparent;
+                border: none;
+            }
+            
+            body {
+                padding: 10px 5px;
+            }
+            
+            .camera-controls {
+                margin: 15px 0;
+                gap: 8px;
+            }
+            
+            .camera-controls button {
+                padding: 14px 20px;
+                font-size: 16px;
+                border-radius: 8px;
+            }
+        }
+
+        /* Extra small screens - maximize camera size */
+        @media (max-width: 360px) {
+            video {
+                width: calc(100vw - 20px);
+                max-width: none;
+                border-radius: 6px;
+                max-height: 80vh;
+                height: auto;
+            }
+            
+            #cameraContainer {
+                margin: 10px -5px;
+                padding: 8px 5px;
+            }
+            
+            body {
+                padding: 8px 3px;
+            }
+            
+            .container {
+                padding: 12px 8px;
+                margin: 3px;
             }
         }
 

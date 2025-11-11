@@ -16,6 +16,30 @@ let stream = null;
 let currentFacingMode = 'environment'; // 'environment' = rear, 'user' = front
 let photoCounter = 0;
 
+// Función para ajustar el tamaño del video automáticamente
+function adjustVideoSize() {
+    if (video.videoWidth && video.videoHeight) {
+        const maxHeight = window.innerHeight * 0.75; // 75% de la altura de la pantalla
+        const aspectRatio = video.videoWidth / video.videoHeight;
+        
+        // Calcular dimensiones óptimas
+        let newHeight = Math.min(maxHeight, video.videoHeight);
+        let newWidth = newHeight * aspectRatio;
+        
+        // Ajustar si el ancho excede el viewport
+        const maxWidth = window.innerWidth * 0.9;
+        if (newWidth > maxWidth) {
+            newWidth = maxWidth;
+            newHeight = newWidth / aspectRatio;
+        }
+        
+        video.style.width = newWidth + 'px';
+        video.style.height = newHeight + 'px';
+        
+        console.log('Video ajustado:', newWidth + 'x' + newHeight);
+    }
+}
+
 // Camera functions
 async function openCamera() {
     try {
@@ -29,6 +53,11 @@ async function openCamera() {
 
         stream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = stream;
+        
+        // Ajustar dimensiones automáticamente cuando el video esté listo
+        video.addEventListener('loadedmetadata', function() {
+            adjustVideoSize();
+        });
         
         cameraContainer.style.display = 'block';
         openCameraBtn.textContent = 'Cámara Activa';
@@ -282,6 +311,22 @@ openCameraBtn.addEventListener('click', openCamera);
 takePhotoBtn.addEventListener('click', takePhoto);
 switchCameraBtn.addEventListener('click', switchCamera);
 clearGalleryBtn.addEventListener('click', clearGallery);
+
+// Ajustar tamaño cuando cambie la orientación o el tamaño de la ventana
+window.addEventListener('resize', () => {
+    if (stream && video.videoWidth && video.videoHeight) {
+        adjustVideoSize();
+    }
+});
+
+// Ajustar cuando cambie la orientación en móviles
+window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+        if (stream && video.videoWidth && video.videoHeight) {
+            adjustVideoSize();
+        }
+    }, 100);
+});
 
 window.addEventListener('beforeunload', () => {
     closeCamera();
